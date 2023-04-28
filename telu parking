@@ -33,6 +33,9 @@ void signup(int);
 void menupetugas();
 void login(int);
 void logout();
+void lihatakun();
+void cariakunuser();
+void hapusakunuser();
 
 void main()
 {
@@ -227,3 +230,24 @@ void menuadmin()
     printf("  Pilih Menu (1-9): ");
     scanf("%d", &choose);
     getchar();
+    switch (choose)
+    {
+    case 1:
+            f_login = fopen("AkunUser.dat", "rb");
+            printf("\t>List Akun User<");
+            lihatakun();
+            fclose(f_login);
+            system("pause");
+            menupetugas();
+            break;
+    case 2:
+        cariakunuser();
+        system("pause");
+        menupetugas();
+        break;
+    case 3:
+            hapusakunuser();
+            system("pause");
+            menupetugas();
+            break;
+}
