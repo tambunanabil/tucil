@@ -209,3 +209,21 @@ void login(int y)
         main();
     }
 }
+
+void menuadmin()
+{
+    system("cls");
+    printf("                    Tel-U Parking\n");
+    printf("                Pilihan Menu Petugas\n\n");
+    printf("  1. Lihat daftar akun\n");
+    printf("  2. Cari Akun User\n");
+    printf("  3. Hapus akun user\n");
+    printf("  4. Cek Ketersediaan Parkir\n");
+    printf("  5. Cek Riwayat Kendaraan\n");
+    printf("  6. Peta Parkiran\n");
+    printf("  7. Ramalan Parkiran\n");
+    printf("  8. Profile\n");
+    printf("  9. logout \n");
+    printf("  Pilih Menu (1-9): ");
+    scanf("%d", &choose);
+    getchar();
