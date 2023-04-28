@@ -1,0 +1,211 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+//	Kelompok Tugas Kecil Tel-U Parkking
+// 	Nama Anggota : 
+//		         : Muhammad Nabil Arifiandi Tambunan(1104220154)
+//		         : 
+//		         : 
+//	Kelompok	 : 09
+//	=================================================================================================================================================
+
+FILE *signup_user;
+FILE *f_user;
+FILE *f_diterima;   
+FILE *f_diterima2;  
+FILE *f_konfirmasi; 
+FILE *f_singup;     
+FILE *f_akun;       
+FILE *f_login;
+
+struct
+{
+    char nam[20], username[20], password[20], plat[20];
+} acc;
+
+
+char confirm[10], name[20], user[20], pass[20], plat[20], dicari[50];
+int i, x, n, choose;
+void menuuser();
+void log_petugas(int);
+void signup(int);
+void menupetugas();
+void login(int);
+void logout();
+
+void main()
+{
+    int z = 3, akun;
+
+    system("cls");
+    printf("\n\n\n\n\n");
+	printf("\t\t||= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =||\n");
+	printf("\t\t||                   SELAMAT DATANG DI LAMAN Tel-U Parking                   ||\n");
+	printf("\t\t||                     _________________________________                     ||\n");
+	printf("\t\t||                                                                           ||\n");
+    printf("\t\t||= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =||\n\n");
+    printf("\t\t||===========================================================================||\n");
+    printf("\t\t||                             | Pilihan Menu |                              ||\n");
+	printf("\t\t||                       ____________________________                        ||\n");
+    printf("\t\t||                                                                           ||\n");
+    printf("\t\t|| ==>> 1. Petugas                                                           ||\n");
+  	printf("\t\t|| ==>> 2. User                                                              ||\n"); 
+    printf("\t\t|| ==>> 3. Exit                                                              ||\n");
+    printf("\t\t||===========================================================================||\n\n");
+    printf("  Pilih : ");
+    scanf("%d", &akun);
+    switch (akun)
+    {
+    case 1:
+    {
+        printf("\n\t>Log in Petugas<");
+        log_petugas(z);
+    }
+    break;
+    case 2:
+    {
+        printf("\n                 >Pilih 2 untuk login<");
+        printf("\n    >Belum memiliki akun? Buat akun dengan memilih 1!<\n");
+        printf("1. Sign up\n2. Log in\nPilih : ");
+        scanf("%d", &n);
+        getchar();
+        switch (n)
+        {
+        case 1:
+            signup(akun);
+            main();
+            break;
+
+        case 2:
+            printf("\n\t>Log in User<");
+            f_login = fopen("AkunUser.dat", "rb");
+            login(z);
+            fclose(f_login);
+            menuuser();
+            break;
+
+        default:
+            printf("Pilihan tidak ditemukan\n");
+            system("pause");
+            main();
+            break;
+        }
+    }
+    break;
+    case 3:
+    {
+        printf("\nApakah anda yakin ingin keluar?");
+        printf("\nketik 'YA' jika anda yakin\n");
+        gets(confirm);
+        if (strcmp(confirm, "YA") == 0 || strcmp(confirm, "ya") == 0)
+        {
+            printf("       >Exit berhasil.<");
+        }
+        else
+        {
+            main();
+        }
+    }
+    break;
+    default:
+        printf("Pilihan tidak ada.\n");
+        system("pause");
+        main();
+        break;
+    }
+}
+
+void log_petugas(int y)
+{
+    if (y > 0)
+    {
+        printf("\nUsername : ");
+        gets(user);
+        printf("Password : ");
+        gets(pass);
+        if (strcmp(user, "petugasparkir") == 0 && strcmp(pass, "parkiranaman") == 0)
+        {
+            printf("       >Login berhasil<\n");
+            printf("\nKlik tombol enter untuk melanjutkan\n");
+            getchar();
+            menupetugas();
+            }
+        else
+        {
+            printf("\t>Login gagal<");
+            log_petugas(y = y - 1);
+        }
+    }
+    else
+    {
+        printf("\n    Kesempatan anda habis");
+        printf("\nKlik tombol enter untuk melanjutkan\n");
+        getchar();
+        main();
+    }
+}
+
+void signup(int x)
+{
+    printf("\n\t>Sign Up<\n");
+    if (x == 2)
+    {
+        f_singup = fopen("AkunUser.dat", "ab");
+        {
+            printf("Nama : ");
+            gets(acc.nam);
+            printf("Username (NIM) : ");
+            gets(acc.username);
+            printf("Password : ");
+            gets(acc.password);
+            printf("Plat Nomor Kendaraan: ");
+            gets(acc.plat);
+            fwrite(&acc, sizeof(acc), 1, f_singup);
+        }
+        fclose(f_singup);
+    }
+    printf("\t>Sign Up berhasil<\n");
+    printf("\nKlik tombol enter untuk melanjutkan\n");
+    getchar();
+}
+
+void login(int y)
+{
+    if (y > 0)
+    {
+        x = 0;
+        printf("\nUsername : ");
+        gets(user);
+        printf("Password : ");
+        gets(pass);
+        printf("\nPlat Nomor : ");
+        gets(plat);
+        while (fread(&acc, sizeof(acc), 1, f_login) == 1)
+        {
+            if (strcmp(user, acc.username) == 0 && strcmp(pass, acc.password) == 0 && strcmp(plat, acc.plat) == 0 )
+            {
+                x = 1;
+            }
+        }
+        if (x == 1)
+        {
+            printf("\t>Login berhasil<\n");
+            printf("\nKlik tombol enter untuk melanjutkan\n");
+            getchar();
+        }
+        else
+        {
+            printf("\t>Login gagal<");
+            rewind(f_login);
+            login(y = y - 1);
+        }
+    }
+    else
+    {
+        printf("\n    Kesempatan anda habis");
+        printf("\nKlik tombol enter untuk melanjutkan\n");
+        getchar();
+        main();
+    }
+}
